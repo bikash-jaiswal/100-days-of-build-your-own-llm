@@ -21,11 +21,11 @@ uv run llm-100days progress get
 Output example:
 ```
 Current Progress:
-  LLM Building Plan (Days 1‑60): 5
-  Runtime Layer (Days 61‑78): 2
-  Infrastructure Layer (Days 79‑86): 0
-  Tooling Layer (Days 87‑89): 0
-  Deep Implementation (Days 90‑100): 0
+  LLM Building Plan (Days 1‑30): 5
+  Runtime Layer (Days 31‑50): 2
+  Infrastructure Layer (Days 51‑65): 0
+  Tooling Layer (Days 66‑75): 0
+  Deep Implementation (Days 76‑100): 0
 
 Total: 7/100
 ```
@@ -34,15 +34,15 @@ Total: 7/100
 
 Update the completed days for a specific phase:
 ```bash
-uv run llm-100days progress update --phase "LLM Building Plan (Days 1‑60)" --completed 5
+uv run llm-100days progress update --phase "LLM Building Plan (Days 1‑30)" --completed 5
 ```
 
 Available phases:
-- `LLM Building Plan (Days 1‑60)`
-- `Runtime Layer (Days 61‑78)`
-- `Infrastructure Layer (Days 79‑86)`
-- `Tooling Layer (Days 87‑89)`
-- `Deep Implementation (Days 90‑100)`
+- `LLM Building Plan (Days 1‑30)`
+- `Runtime Layer (Days 31‑50)`
+- `Infrastructure Layer (Days 51‑65)`
+- `Tooling Layer (Days 66‑75)`
+- `Deep Implementation (Days 76‑100)`
 
 ### Sync Progress to README
 
@@ -77,7 +77,7 @@ Progress is stored in `.data/progress.json` in the project root. This file is au
 1. Complete a day's work
 2. Update progress:
    ```bash
-   uv run llm-100days progress update --phase "LLM Building Plan (Days 1‑60)" --completed 1
+   uv run llm-100days progress update --phase "LLM Building Plan (Days 1‑30)" --completed 1
    ```
 3. Sync to README:
    ```bash

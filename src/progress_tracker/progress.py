@@ -30,11 +30,11 @@ class ProgressTracker:
         """Initialize progress data with default values."""
         if not self.progress_file.exists():
             default_progress = {
-                "LLM Building Plan (Days 1‑60)": 0,
-                "Runtime Layer (Days 61‑78)": 0,
-                "Infrastructure Layer (Days 79‑86)": 0,
-                "Tooling Layer (Days 87‑89)": 0,
-                "Deep Implementation (Days 90‑100)": 0,
+                "LLM Building Plan (Days 1‑30)": 0,
+                "Runtime Layer (Days 31‑50)": 0,
+                "Infrastructure Layer (Days 51‑65)": 0,
+                "Tooling Layer (Days 66‑75)": 0,
+                "Deep Implementation (Days 76‑100)": 0,
             }
             self._save_progress(default_progress)
     
