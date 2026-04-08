@@ -12,7 +12,7 @@ A structured deep‑dive schedule that starts with building an LLM from scratch 
 |-----|-------|------|
 | 01 | Preface – Overview of the book’s goals and author background | Preface |
 | 02 | About the Author – Understand the author’s perspective and experience | Preface |
-| 03 | Understanding Large Language Models – What is an LLM? | Ch 1.1 |
+| 03 | Understanding Large Language Models – What is an LLM? | <a href="days/day03" target="_blank">Ch 1.1</a> |
 | 04 | Understanding Large Language Models – Applications of LLMs | Ch 1.2 |
 | 05 | Understanding Large Language Models – Stages of building and using LLMs | Ch 1.3 |
 | 06 | Understanding Large Language Models – Introducing the transformer architecture | Ch 1.4 |
