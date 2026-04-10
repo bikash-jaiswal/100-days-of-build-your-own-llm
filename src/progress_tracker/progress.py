@@ -97,3 +97,29 @@ class ProgressTracker:
         content = re.sub(total_pattern, rf"\g<1>{total}", content)
         
         readme_path.write_text(content, encoding="utf-8")
+    
+    def complete_day(self, day_num: int) -> None:
+        """Mark a day as complete by incrementing the appropriate phase.
+        
+        Args:
+            day_num: Day number (1-100)
+        """
+        # Determine which phase this day belongs to
+        if 1 <= day_num <= 30:
+            phase = "LLM Building Plan (Days 1‑30)"
+        elif 31 <= day_num <= 50:
+            phase = "Runtime Layer (Days 31‑50)"
+        elif 51 <= day_num <= 65:
+            phase = "Infrastructure Layer (Days 51‑65)"
+        elif 66 <= day_num <= 75:
+            phase = "Tooling Layer (Days 66‑75)"
+        elif 76 <= day_num <= 100:
+            phase = "Deep Implementation (Days 76‑100)"
+        else:
+            raise ValueError(f"Invalid day number: {day_num}. Must be between 1 and 100.")
+        
+        progress = self._load_progress()
+        progress[phase] += 1
+        self._save_progress(progress)
+        
+        return phase

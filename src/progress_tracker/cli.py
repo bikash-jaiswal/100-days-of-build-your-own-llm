@@ -35,6 +35,11 @@ def main():
     create_parser = day_subparsers.add_parser("create", help="Create a new day directory")
     create_parser.add_argument("--day", type=int, required=True, help="Day number")
     
+    # Complete a day
+    complete_parser = day_subparsers.add_parser("complete", help="Mark a day as complete")
+    complete_parser.add_argument("--day", type=int, required=True, help="Day number")
+    complete_parser.add_argument("--sync", action="store_true", help="Sync progress to README after completing")
+    
     args = parser.parse_args()
     
     if args.command == "progress":
@@ -73,88 +78,116 @@ def handle_day(args):
     """Handle day commands."""
     if args.day_command == "create":
         create_day(args.day)
+    elif args.day_command == "complete":
+        complete_day(args.day, args.sync)
     else:
         print("No day command specified")
 
 
 def create_day(day_num: int):
     """Create a new day directory with templates."""
+    day_str = str(day_num)
     project_root = Path(__file__).parent.parent.parent
     days_dir = project_root / "days"
     day_dir = days_dir / f"day{day_num:02d}"
     
     if day_dir.exists():
-        print(f"Day {day_num} already exists at {day_dir}")
+        print(f"Day {day_str} already exists at {day_dir}")
         return
     
     day_dir.mkdir(exist_ok=True)
     
     # Create notebook template
-    notebook_path = day_dir / "notebook.ipynb"
+    notebook_path = day_dir / f"Day_{day_str}.ipynb"
     notebook_content = {
         "cells": [
             {
                 "cell_type": "markdown",
                 "metadata": {},
                 "source": [
-                    f"# Day {day_num}\n",
-                    "\n",
-                    "## Topic\n",
-                    "\n",
-                    "## Book Reference\n",
-                    "\n",
-                    "## Notes\n",
-                    "\n",
-                    "## Code\n",
-                    "\n",
-                    "## Results\n"
+                    f"# Day {day_str}\n"
                 ]
             }
-        ],
-        "metadata": {
-            "kernelspec": {
-                "display_name": "Python 3",
-                "language": "python",
-                "name": "python3"
-            },
-            "language_info": {
-                "codemirror_mode": {
-                    "name": "ipython",
-                    "version": 3
-                },
-                "file_extension": ".py",
-                "mimetype": "text/x-python",
-                "name": "python",
-                "nbconvert_exporter": "python",
-                "pygments_lexer": "ipython3",
-                "version": "3.12.0"
-            }
-        },
-        "nbformat": 4,
-        "nbformat_minor": 4
+        ]
     }
     
     import json
     with open(notebook_path, 'w') as f:
         json.dump(notebook_content, f, indent=2)
     
-    # Create solution template
-    solution_path = day_dir / "solution.py"
-    solution_content = f'''# Day {day_num} Solution
+    # Create Notes.md template
+    notes_path = day_dir / "Notes.md"
+    notes_content = f'''# Day {day_str} Notes
 
-def main():
-    """Main entry point for day {day_num} solution."""
-    print(f"Day {day_num} solution")
-    # TODO: Implement solution
+## Topic
 
-if __name__ == "__main__":
-    main()
+## Key Concepts
+
+- 
+- 
+- 
+
+## Important Details
 '''
-    solution_path.write_text(solution_content)
+    notes_path.write_text(notes_content)
     
-    print(f"Created day {day_num} at {day_dir}")
-    print("  - notebook.ipynb")
-    print("  - solution.py")
+    # Create Questions.md template
+    questions_path = day_dir / "Questions.md"
+    questions_content = f'''# Day {day_str} Questions
+
+## Understanding Questions
+
+1. 
+2. 
+3. 
+
+## Implementation Questions
+
+1. 
+2. 
+3. 
+
+## Follow-up Questions
+
+1. 
+2. 
+3. 
+
+## Answers
+
+### Understanding Questions
+
+### Implementation Questions
+
+### Follow-up Questions
+'''
+    questions_path.write_text(questions_content)
+    
+    print(f"Created day {day_str} at {day_dir}")
+    print(f"  - Day_{day_str}.ipynb")
+    print("  - Notes.md")
+    print("  - Questions.md")
+
+
+def complete_day(day_num: int, sync: bool = False):
+    """Mark a day as complete by incrementing the appropriate phase.
+    
+    Args:
+        day_num: Day number (1-100)
+        sync: Whether to sync progress to README after completing
+    """
+    tracker = ProgressTracker()
+    
+    try:
+        phase = tracker.complete_day(day_num)
+        print(f"Marked day {day_num} as complete")
+        print(f"Phase: {phase}")
+        
+        if sync:
+            tracker.update_readme()
+            print("Synced progress to README.md")
+    except ValueError as e:
+        print(f"Error: {e}")
 
 
 if __name__ == "__main__":
